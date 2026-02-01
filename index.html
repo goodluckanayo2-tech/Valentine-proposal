@@ -112,6 +112,19 @@
             display: none;
         }
 
+        /* Explosion GIF styling */
+        #explosionGif {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
         /* Responsive for phones */
         @media (max-width: 600px) {
             .container {
@@ -130,44 +143,52 @@
 <body>
 
     <div class="container">
-        <h1>Dear <span id="gfName">Joyfransisca</span>, Will You Be My Valentine? <span class="sticker" id="emoji">💗💕♥️💐🌹</span></h1>
-        <p id="message">I love you more than words can say. Let's make this Valentine's Day special!</p>
+        <!-- Emojis placed at the top for better layout -->
+        <div class="sticker">💗💕</div>
+        <h1>Dear Joyfransisca, Will You Be My Valentine?</h1>
+        <div class="sticker">♥️💐🌹</div>
+        <p id="message">I love you more than words can say. Let's make this Valentine's Day special! - From Ebube</p>
         
         <!-- Custom card words area: Personalized words show here -->
-        <div class="sticker" id="customWords">Add your sweet words here, like "Forever Yours" or a poem!</div>
+        <div class="sticker" id="customWords">Forever Yours, my love. In your eyes, I find my home, in your arms, my paradise. Let's write our story eternal!</div>
         
         <!-- Custom sticker/picture/GIF: Shows if enabled -->
-        <img class="custom-gif" id="customImage" src="" alt="Custom Romantic GIF or Picture" style="display: none;">
+        <img class="custom-gif" id="customImage" src="https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/my-photo.jpg" alt="Our Special Moment" style="display: block;">
 
         <div class="buttons">
-            <button id="yesBtn">Yes</button>
-            <button id="noBtn">No</button>
+            <button id="yesBtn">Yes 💖</button>
+            <button id="noBtn">No 😔</button>
         </div>
     </div>
 
     <!-- Audio for background music -->
     <audio id="music" loop>
-        <source src="" type="audio/mpeg">
+        <source src="https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/romantic-song.mp3" type="audio/mpeg">
     </audio>
 
-    <script>
-        // Customization Section: Edit these variables with your details
-        // Paste URLs from your uploaded files on GitHub (from Step 3)
-        const myName = "Ebube"; // e.g., "Goodluck"
-        const gfName = "Joyfransisca"; // e.g., "My Love"
-        const message = "I love you more than words can say. Let's make this Valentine's Day special!"; // Your personal message
-        const bgColor = "#ffebee"; // Background color (hex code, e.g., "#ff69b4" for hot pink). Use a color picker site.
-        const emoji = "💗💕♥️💐🌹"; // Custom emoji or multiple, e.g., "🌹💕😘"
-        const musicUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/romantic-song.mp3"; // Paste your music file URL
-        const customWords = "Add your sweet words here, like 'Forever Yours' or a poem!"; // Personalized card text, e.g., a short poem
-        const customImageUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/my-photo.jpg"; // Paste your image/GIF URL
-        const showCustomImage = true; // Set to true to show the image/GIF, false to hide
+    <!-- Explosion GIF -->
+    <img id="explosionGif" src="" alt="Romantic Explosion">
 
-        // Apply customizations (don't edit below unless advanced)
+    <script>
+        // Customization Section: These are already set, but you can edit if needed
+        const myName = "Ebube";
+        const gfName = "Joyfransisca";
+        const message = "I love you more than words can say. Let's make this Valentine's Day special!";
+        const bgColor = "#ffebee"; // Soft pink
+        const topEmojis = "💗💕"; // Emojis at top
+        const bottomEmojis = "♥️💐🌹"; // Emojis below title
+        const musicUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/romantic-song.mp3";
+        const customWords = "Forever Yours, my love. In your eyes, I find my home, in your arms, my paradise. Let's write our story eternal!";
+        const customImageUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/my-photo.jpg";
+        const showCustomImage = true;
+        const explosionGifUrl = "https://gifsec.com/wp-content/uploads/2022/09/heart-gif-4.gif"; // Romantic hearts explosion GIF
+
+        // Apply customizations
         document.documentElement.style.setProperty('--bg-color', bgColor);
-        document.getElementById('gfName').textContent = gfName;
+        // gfName is already in HTML, but if you want to change dynamically, uncomment:
+        // document.getElementById('gfName').textContent = gfName;
         document.getElementById('message').textContent = `${message} - From ${myName}`;
-        document.getElementById('emoji').textContent = emoji;
+        // Emojis are now split in HTML, but you can set if needed
         document.getElementById('customWords').textContent = customWords;
         
         const customImg = document.getElementById('customImage');
@@ -178,7 +199,10 @@
         audio.src = musicUrl;
         audio.play().catch(() => console.log('Autoplay blocked; tap the page to play music')); // May need a tap on phones
 
-        // Interactivity (don't edit unless advanced)
+        const explosionGif = document.getElementById('explosionGif');
+        explosionGif.src = explosionGifUrl;
+
+        // Interactivity
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const container = document.querySelector('.container');
@@ -186,7 +210,8 @@
         let yesScale = 1; // Initial scale for Yes button
 
         // Make No button move randomly on hover (mouse) or touch (phone)
-        function moveNoButton() {
+        function moveNoButton(event) {
+            event.preventDefault(); // Prevent default touch behavior
             const containerRect = container.getBoundingClientRect();
             const maxX = containerRect.width - noBtn.offsetWidth - 20;
             const maxY = containerRect.height - noBtn.offsetHeight - 20;
@@ -205,11 +230,13 @@
             moveNoButton();
         });
 
-        // On click Yes: Trigger love bubbles and change message
+        // On click Yes: Trigger love bubbles, show explosion GIF, and change message
         yesBtn.addEventListener('click', () => {
             audio.play(); // Ensure music plays
             createBubbles(50); // Create 50 heart bubbles
-            container.innerHTML = `<h1>Yes! I love you, \( {myName}! 🎉 \){emoji}</h1><p>Happy Valentine's Day!</p>`;
+            explosionGif.style.display = 'block'; // Show GIF
+            setTimeout(() => { explosionGif.style.display = 'none'; }, 5000); // Hide after 5 seconds
+            container.innerHTML = `<div class="sticker">💗💕♥️💐🌹</div><h1>Yes! I love you, ${myName}! 🎉</h1><p>Happy Valentine's Day!</p>`;
         });
 
         // Function to create explosive heart bubbles
