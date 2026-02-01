@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        /* Professional and responsive CSS for a clean, romantic look */
+        body {
+            font-family: 'Parisienne', cursive; /* Fancy romantic font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color, #ffebee); /* Soft pink default */
+            color: #333;
+            overflow: hidden; /* Prevent scroll during animations */
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            position: relative;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #e91e63; /* Romantic pink */
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            font-family: 'Arial', sans-serif; /* Keep buttons readable */
+        }
+
+        #yesBtn {
+            background: #4caf50; /* Green for yes */
+            color: white;
+            transform: scale(var(--yes-scale, 1));
+        }
+
+        #noBtn {
+            background: #f44336; /* Red for no */
+            color: white;
+        }
+
+        #noBtn:hover, #noBtn:active {
+            /* No button moves on hover/tap */
+            position: absolute;
+            transition: none;
+        }
+
+        /* Heart bubble animation */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #e91e63;
+            border-radius: 50%;
+            animation: bubble 2s ease-out forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes bubble {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(0); opacity: 0; }
+        }
+
+        /* Custom sticker or GIF area */
+        .sticker {
+            margin: 20px 0;
+            font-size: 2em; /* For emojis or text */
+        }
+
+        .custom-gif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Audio styling (hidden) */
+        audio {
+            display: none;
+        }
+
+        /* Responsive for phones */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dear <span id="gfName">Joyfransisca</span>, Will You Be My Valentine? <span class="sticker" id="emoji">💗💕♥️💐🌹</span></h1>
+        <p id="message">I love you more than words can say. Let's make this Valentine's Day special!</p>
+        
+        <!-- Custom card words area: Personalized words show here -->
+        <div class="sticker" id="customWords">Add your sweet words here, like "Forever Yours" or a poem!</div>
+        
+        <!-- Custom sticker/picture/GIF: Shows if enabled -->
+        <img class="custom-gif" id="customImage" src="" alt="Custom Romantic GIF or Picture" style="display: none;">
+
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <!-- Audio for background music -->
+    <audio id="music" loop>
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Customization Section: Edit these variables with your details
+        // Paste URLs from your uploaded files on GitHub (from Step 3)
+        const myName = "Ebube"; // e.g., "Goodluck"
+        const gfName = "Joyfransisca"; // e.g., "My Love"
+        const message = "I love you more than words can say. Let's make this Valentine's Day special!"; // Your personal message
+        const bgColor = "#ffebee"; // Background color (hex code, e.g., "#ff69b4" for hot pink). Use a color picker site.
+        const emoji = "💗💕♥️💐🌹"; // Custom emoji or multiple, e.g., "🌹💕😘"
+        const musicUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/romantic-song.mp3"; // Paste your music file URL
+        const customWords = "Add your sweet words here, like 'Forever Yours' or a poem!"; // Personalized card text, e.g., a short poem
+        const customImageUrl = "https://raw.githubusercontent.com/goodluckanayo2-tech/Valentine-proposal/main/my-photo.jpg"; // Paste your image/GIF URL
+        const showCustomImage = true; // Set to true to show the image/GIF, false to hide
+
+        // Apply customizations (don't edit below unless advanced)
+        document.documentElement.style.setProperty('--bg-color', bgColor);
+        document.getElementById('gfName').textContent = gfName;
+        document.getElementById('message').textContent = `${message} - From ${myName}`;
+        document.getElementById('emoji').textContent = emoji;
+        document.getElementById('customWords').textContent = customWords;
+        
+        const customImg = document.getElementById('customImage');
+        customImg.src = customImageUrl;
+        customImg.style.display = showCustomImage ? 'block' : 'none';
+
+        const audio = document.getElementById('music');
+        audio.src = musicUrl;
+        audio.play().catch(() => console.log('Autoplay blocked; tap the page to play music')); // May need a tap on phones
+
+        // Interactivity (don't edit unless advanced)
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const container = document.querySelector('.container');
+
+        let yesScale = 1; // Initial scale for Yes button
+
+        // Make No button move randomly on hover (mouse) or touch (phone)
+        function moveNoButton() {
+            const containerRect = container.getBoundingClientRect();
+            const maxX = containerRect.width - noBtn.offsetWidth - 20;
+            const maxY = containerRect.height - noBtn.offsetHeight - 20;
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${Math.random() * maxX}px`;
+            noBtn.style.top = `${Math.random() * maxY}px`;
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton); // For phones
+
+        // On click No: Make Yes bigger and move No
+        noBtn.addEventListener('click', () => {
+            yesScale += 0.5; // Grow by 50% each time
+            yesBtn.style.transform = `scale(${yesScale})`;
+            moveNoButton();
+        });
+
+        // On click Yes: Trigger love bubbles and change message
+        yesBtn.addEventListener('click', () => {
+            audio.play(); // Ensure music plays
+            createBubbles(50); // Create 50 heart bubbles
+            container.innerHTML = `<h1>Yes! I love you, \( {myName}! 🎉 \){emoji}</h1><p>Happy Valentine's Day!</p>`;
+        });
+
+        // Function to create explosive heart bubbles
+        function createBubbles(count) {
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                heart.style.animationDelay = `${Math.random() * 0.5}s`;
+                heart.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random romantic colors
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000); // Remove after animation
+            }
+        }
+    </script>
+</body>
+</html>
